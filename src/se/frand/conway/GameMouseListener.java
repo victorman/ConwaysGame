@@ -15,7 +15,7 @@ public class GameMouseListener implements MouseListener, MouseMotionListener {
 	
 	public GameMouseListener(Life game, LifeComponent gameComponent, int cellSize) {
 		mouseDown = false;
-		addState = 0;
+		addState = -1;
 		this.cellSize = cellSize;
 		this.gameComponent = gameComponent;
 		this.game = game;
@@ -26,8 +26,9 @@ public class GameMouseListener implements MouseListener, MouseMotionListener {
 		Point point = e.getPoint();
 	    int y = (int)((point.getY() - LifeGame.CONTROL_BAR_HEIGHT) / (double)cellSize);
 	    int x = (int)(point.getX() / (double)cellSize);
-		System.out.printf("%d %d %f %f\n",x, y, point.getX(), point.getY());
+		//System.out.printf("%d %d %f %f\n",x, y, point.getX(), point.getY());
 		if(game.getAge(x, y) != game.setState(addState, x ,y)) {
+		    System.out.printf("drawing state: %d\n", addState);
 			gameComponent.redraw();
 		}
 	}
@@ -46,9 +47,10 @@ public class GameMouseListener implements MouseListener, MouseMotionListener {
 		Point point = e.getPoint();
 	    int y = (int)((point.getY() - LifeGame.CONTROL_BAR_HEIGHT) / (double)cellSize);
 	    int x = (int)(point.getX() / (double)cellSize);
-		System.out.printf("%d %d %f %f\n",x, y, point.getX(), point.getY());
+		//System.out.printf("%d %d %f %f\n",x, y, point.getX(), point.getY());
 		int state = -1;
 		if((state = game.toggle(x, y)) != addState) {
+			System.out.printf("drawing state: %d\n", state);
 			addState = state;
 			gameComponent.redraw();
 		}
@@ -57,16 +59,13 @@ public class GameMouseListener implements MouseListener, MouseMotionListener {
 	@Override
 	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
-
+		addState = -1;
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent e) {}
 
 	@Override
-	public void mouseExited(MouseEvent e) {
-		// TODO Auto-generated method stub
-
-	}
+	public void mouseExited(MouseEvent e) {}
 
 }

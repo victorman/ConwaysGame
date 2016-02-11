@@ -7,6 +7,8 @@ public class Life {
 	private int height;
 	private int steps;
 	
+	private Thread thread;
+	
 	public Life(int width, int height) {
 		steps = 0;
 		this.width = width;
@@ -17,6 +19,15 @@ public class Life {
 				grid[i][j] = -1;
 			}
 		}
+	}
+	
+	public void start(Runnable r){
+		thread = new Thread(r);
+		thread.start();
+	}
+	
+	public void stop() {
+		thread.interrupt();
 	}
 	
 	/*
@@ -45,7 +56,7 @@ public class Life {
 				//System.out.printf("%d neighbors\n", neighbors);
 					
 				if((grid[i][j] >= 0 && neighbors > 1 && neighbors < 4) ||
-						(grid[i][j] < 0 && neighbors == 3))
+						 (grid[i][j] < 0 && neighbors == 3))
 					nextStep[i][j] = grid[i][j]+1;
 				else
 					nextStep[i][j] = -1;
@@ -53,6 +64,15 @@ public class Life {
 		}
 		
 		grid = nextStep;
+	}
+	
+	public void reset() {
+		steps = 0;
+		for(int i = 0; i<width; i++) {
+			for(int j=0; j<height; j++) {
+				grid[i][j] = -1;
+			}
+		}
 	}
 	
 	public int toggle(int x, int y) {

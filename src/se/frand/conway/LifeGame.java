@@ -19,6 +19,7 @@ public class LifeGame {
 		final JButton runButton = new JButton("Run");
 		final JButton stopButton = new JButton("Stop");
 		stopButton.setEnabled(false);
+		final JButton resetButton = new JButton("Reset");
 		
 		JPanel controlPanel = new JPanel();
 		final JLabel stepsLabel = new JLabel("0");
@@ -26,6 +27,7 @@ public class LifeGame {
 		controlPanel.setSize(frame.getWidth(), CONTROL_BAR_HEIGHT);
 		controlPanel.add(runButton);
 		controlPanel.add(stopButton);
+		controlPanel.add(resetButton);
 		frame.add(controlPanel, BorderLayout.NORTH);
 		
 		final Life game = setupGame(args);
@@ -37,7 +39,7 @@ public class LifeGame {
 		frame.addMouseMotionListener((MouseMotionListener) listener);
 		
 		// set up a runnable to control the game
-		Runnable gameRunnable = new Runnable() {
+		final Runnable gameRunnable = new Runnable() {
 			@Override
 			public void run() {
 				while(!Thread.interrupted()) {
@@ -52,15 +54,15 @@ public class LifeGame {
 				}
 			}
 		};
-		final Thread gameThread = new Thread(gameRunnable);
 		
 		runButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				runButton.setEnabled(false);
 				stopButton.setEnabled(true);
+				resetButton.setEnabled(false);
 				// go
-				gameThread.start();
+				game.start(gameRunnable);
 			}
 		});
 		
@@ -69,8 +71,18 @@ public class LifeGame {
 			public void actionPerformed(ActionEvent e) {
 				runButton.setEnabled(true);
 				stopButton.setEnabled(false);
+				resetButton.setEnabled(true);
 				// halt
-				gameThread.interrupt();
+				game.stop();
+			}
+		});
+		
+		resetButton.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				game.reset();
+				stepsLabel.setText(""+game.getSteps());
+				gameComponent.redraw();
 			}
 		});
 		

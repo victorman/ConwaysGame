@@ -42,7 +42,7 @@ public class LifeComponent extends JComponent {
 	private int redValue(int cellAge) {
 		int age = (int)Math.sqrt((double)(cellAge * cellAge));
 		age*=AGE_RATE;
-		return Math.max(0, 255 - age);
+		return Math.max(100, 255 - age);
 	}
 
 	public void redraw() {
