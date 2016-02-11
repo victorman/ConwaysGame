@@ -55,14 +55,18 @@ public class Life {
 		grid = nextStep;
 	}
 	
-	public void toggle(int x, int y) {
+	public int toggle(int x, int y) {
 		if(x < 0 || x >= width || y < 0 || y >= height)
-			return;
+			return -1;
 		
 		if(grid[x][y] < 0)
-			grid[x][y] = 0;
+			return grid[x][y] = 0;
 		else
-			grid[x][y] = -1;
+			return grid[x][y] = -1;
+	}
+	
+	public int setState(int state, int x, int y) {
+		return grid[x][y] = state;
 	}
 
 	public boolean isLiving(int x, int y) {

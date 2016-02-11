@@ -10,7 +10,7 @@ import javax.swing.*;
 public class LifeGame {
 	
 	private static final int STEP_TIME = 150;
-	private static final int CONTROL_BAR_HEIGHT = 50;
+	public static final int CONTROL_BAR_HEIGHT = 50;
 	private static final String TITLE = "Conway's Game of Life by victor";
 
 	public static void main(String[] args) {
@@ -32,35 +32,9 @@ public class LifeGame {
 		final int cellSize = Integer.valueOf(args[0]);
 		final LifeComponent gameComponent = new LifeComponent(game);
 		frame.add(gameComponent, BorderLayout.CENTER);
-		frame.addMouseListener(new MouseListener() {
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				Point point = e.getPoint();
-			    int y = (int)((point.getY() - CONTROL_BAR_HEIGHT) / (double)cellSize);
-			    int x = (int)(point.getX() / (double)cellSize);
-				System.out.printf("%d %d %f %f\n",x, y, point.getX(), point.getY());
-			    game.toggle(x, y);
-			    gameComponent.redraw();
-			}
-			
-			@Override
-			public void mousePressed(MouseEvent e) {}
-			@Override
-			public void mouseExited(MouseEvent e) {}
-			@Override
-			public void mouseEntered(MouseEvent e) {}
-			@Override
-			public void mouseClicked(MouseEvent e) {}
-		});
-		frame.addMouseMotionListener(new MouseMotionListener() {
-			@Override
-			public void mouseMoved(MouseEvent e) {}
-			
-			@Override
-			public void mouseDragged(MouseEvent e) {
-				
-			}
-		});
+		GameMouseListener listener = new GameMouseListener(game, gameComponent, cellSize);
+		frame.addMouseListener((MouseListener) listener);
+		frame.addMouseMotionListener((MouseMotionListener) listener);
 		
 		// set up a runnable to control the game
 		Runnable gameRunnable = new Runnable() {
