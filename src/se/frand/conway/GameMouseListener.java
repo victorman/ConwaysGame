@@ -48,12 +48,9 @@ public class GameMouseListener implements MouseListener, MouseMotionListener {
 	    int y = (int)((point.getY() - LifeGame.CONTROL_BAR_HEIGHT) / (double)cellSize);
 	    int x = (int)(point.getX() / (double)cellSize);
 		//System.out.printf("%d %d %f %f\n",x, y, point.getX(), point.getY());
-		int state = -1;
-		if((state = game.toggle(x, y)) != addState) {
-			System.out.printf("drawing state: %d\n", state);
-			addState = state;
-			gameComponent.redraw();
-		}
+		addState = game.toggle(x, y);
+		System.out.printf("drawing state: %d\n", addState);
+		gameComponent.redraw();
 	}
 
 	@Override
