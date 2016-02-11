@@ -9,3 +9,6 @@ Takes 3 args
 
 Wishlist:
 * change layout of control panel to push step counter all the way to the left
+* save/load state
+* draw/stamp patterns
+* have user defined rules
